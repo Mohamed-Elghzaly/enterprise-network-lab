@@ -1,0 +1,145 @@
+
+Building configuration...
+
+Current configuration : 2250 bytes
+!
+version 15.1
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R1
+!
+!
+!
+enable secret 5 $1$mERr$3HhIgMGBA/9qNmgzccuxv0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username ahmed privilege 5 secret 5 $1$mERr$3HhIgMGBA/9qNmgzccuxv0
+username mohamed privilege 15 secret 5 $1$mERr$3HhIgMGBA/9qNmgzccuxv0
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524YBU5-
+!
+!
+!
+lldp run
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip ssh authentication-retries 5
+no ip domain-lookup
+ip domain-name mohamed.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.2
+ encapsulation dot1Q 2
+ ip address 192.168.2.1 255.255.255.0
+ ip access-group 110 in
+!
+interface GigabitEthernet0/0.5
+ encapsulation dot1Q 5
+ ip address 192.168.5.1 255.255.255.0
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip nat inside
+!
+interface GigabitEthernet0/0.100
+ description MANAGEMENT
+ encapsulation dot1Q 100
+ ip address 192.168.100.1 255.255.255.0
+!
+interface GigabitEthernet0/0.200
+ encapsulation dot1Q 200 native
+ ip address 192.168.200.1 255.255.255.0
+!
+interface GigabitEthernet0/1
+ ip address 15.0.0.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 16.0.0.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ network 209.226.60.20 0.0.0.0 area 0
+ network 192.168.0.0 0.0.255.255 area 0
+ network 15.0.0.0 0.0.0.3 area 0
+!
+ip nat inside source static 192.168.10.11 209.226.60.20 
+ip classless
+ip route 172.10.10.0 255.255.255.0 16.0.0.2 
+ip route 150.1.1.7 255.255.255.255 15.0.0.2 
+!
+ip flow-export version 9
+!
+!
+access-list 110 deny icmp host 192.168.2.10 host 150.1.1.7 echo
+access-list 110 permit tcp any any
+access-list 110 permit icmp any any
+!
+banner motd ^C
+Welcome to R1
+^C
+!
+!
+!
+snmp-server community read RO
+snmp-server community write RW
+!
+logging 192.168.10.11
+line con 0
+ password 7 08701E1D
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password 7 08701E1D
+ login local
+ transport input ssh
+!
+!
+ntp server 16.0.0.2
+!
+end
+
