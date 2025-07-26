@@ -27,9 +27,7 @@ This project simulates an **Enterprise Network**  with multiple core services an
 
 ## 🖧 Topology
 
-
-<img width="1385" height="698" alt="network_topology" src="https://github.com/user-attachments/assets/a4c5792e-d3ff-4e63-b266-917577de8b55" />
-
+![network topology](topology/network_topology.png)
 
 
 ## 🖥️ Technologies Used
